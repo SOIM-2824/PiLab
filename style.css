@@ -13,6 +13,27 @@ body {
   overflow-x: hidden;
 }
 
+/* 未訪問のリンク */
+a:link {
+  color: black;
+}
+
+/* 訪問済みのリンク */
+a:visited {
+  color: black;
+}
+
+/* マウスホバー時のリンク */
+a:hover {
+  color: black;
+}
+
+/* クリック中のリンク */
+a:active {
+  color: black;
+}
+
+
 /* ====== Calendar ====== */
 #calendar {
   display: grid;
