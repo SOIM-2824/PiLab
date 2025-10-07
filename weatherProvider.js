@@ -48,7 +48,7 @@ function normalizeCurrent(c) {
   };
 }
 
-function normalizeDaily(d) {
+function normalizeDaily(d) {   //
   const weather = (d.weather && d.weather[0]) || {};
   return {
     date: new Date(d.dt * 1000),
@@ -60,3 +60,9 @@ function normalizeDaily(d) {
     popPercent: typeof d.pop === 'number' ? Math.round(d.pop * 100) : null
   };
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchOpenWeather(34.69, 135.50).then(data => {
+    console.log(data);
+  });
+});
