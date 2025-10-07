@@ -8,6 +8,8 @@
  *  Forecast: https://api.weatherapi.com/v1/forecast.json?key=KEY&q=LAT,LON&days=7&lang=ja
  */
 
+
+
 const WAPI_BASE = 'https://api.weatherapi.com/v1';
 
 export async function fetchWeatherApi(lat, lon, days = 7) {
