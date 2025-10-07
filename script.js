@@ -4,6 +4,7 @@ const imageList = [
   "https://www.fukei-kabegami.com/photo/fukei-kabegami/member/m000027/m000027_k00012434_1024-768.jpg",
   "https://www.fukei-kabegami.com/photo/fukei-kabegami/member/m000027/m000027_k00012436_1024-768.jpg"
 ];
+//
 let currentIndex = 0;
 let autoChangeInterval;
 function setBackground(index) {
