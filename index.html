@@ -15,155 +15,157 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <!--ログインボーナスとアラームを追加-->
+    <nav id="top-menu">
+        <ul>
+            <li><a href="#">ホーム</a></li>
+            <li><a href="#">カレンダー</a></li>
+            <li><a href="alarm.html">アラーム</a></li>
+            <li><a href="login.html">ログインボーナス</a></li>
+            <li>
+                <a href="#" id="weather-menu-btn">天気予報</a>
+                <div id="weather-dropdown">
+                    <div id="weekly-weather">
+                        <strong>週間天気</strong>
+                        <div id="weekly-weather-content">読み込み中...</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
 
-  <nav id="top-menu">
-    <ul>
-      <li><a href="#">ホーム</a></li>
-      <li><a href="#">カレンダー</a></li>
-      <li>
-        <a href="#" id="weather-menu-btn">天気予報</a>
-        <div id="weather-dropdown">
-          <div id="weekly-weather">
-            <strong>週間天気</strong>
-            <div id="weekly-weather-content">読み込み中...</div>
-          </div>
+    <!-- ▼▼▼ カレンダーとYouTubeを横並びに表示 ▼▼▼ -->
+    <div id="main-area">
+        <div class="left-area">
+            <div id="calendar-header">
+                <button id="cal-prev" class="cal-nav-btn" aria-label="前の月">◀</button>
+                <div id="current-month">読み込み中...</div>
+                <button id="cal-next" class="cal-nav-btn" aria-label="次の月">▶</button>
+                <button id="cal-refresh" class="cal-nav-btn" title="再読み込み">⟳</button>
+            </div>
+            <div id="calendar"></div>
+            <!-- ▼▼▼ カレンダー下の枠（仮） ▼▼▼ -->
+            <div id="calendar-bottom-box">
+
+
+
+                <!-- 睡眠データの棒グラフサンプル（睡眠時間のみ） -->
+                <div style="width: 520px; margin: 32px auto;">
+                    <div style="text-align:center; font-weight:bold; font-size:20px; margin-bottom:12px;">
+                        1週間の睡眠データ
+                    </div>
+                    <div style="display: flex; align-items: flex-end; height: 140px; gap: 12px;">
+                        <!-- 月 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">月<br>6/10</div>
+                            <div style="font-size:11px; color:#333;">6.0h</div>
+                        </div>
+                        <!-- 火 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:90px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">火<br>6/11</div>
+                            <div style="font-size:11px; color:#333;">7.5h</div>
+                        </div>
+                        <!-- 水 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:60px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">水<br>6/12</div>
+                            <div style="font-size:11px; color:#333;">5.0h</div>
+                        </div>
+                        <!-- 木 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:96px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">木<br>6/13</div>
+                            <div style="font-size:11px; color:#333;">8.0h</div>
+                        </div>
+                        <!-- 金 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:78px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">金<br>6/14</div>
+                            <div style="font-size:11px; color:#333;">6.5h</div>
+                        </div>
+                        <!-- 土 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:84px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">土<br>6/15</div>
+                            <div style="font-size:11px; color:#333;">7.0h</div>
+                        </div>
+                        <!-- 日 -->
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
+                            <div style="font-size:12px; margin-top:4px;">日<br>6/16</div>
+                            <div style="font-size:11px; color:#333;">6.0h</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px; font-size:13px;">
+                        <span style="display:inline-block;width:16px;height:12px;background:#4caf50;vertical-align:middle;margin-right:4px;"></span>睡眠時間
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- ▲▲▲ カレンダー下の枠ここまで ▲▲▲ -->
+            <!-- ▼▼▼ 新しいウィンドウ（仮） ▼▼▼ -->
+            <div id="calendar-extra-box">
+                <button class="control-btn btn-green">ON</button>
+                <button class="control-btn btn-red">OFF</button>
+                <button class="control-btn btn-blue">照明</button>
+                <button class="control-btn btn-orange">AC</button>
+                <button class="control-btn btn-purple">カーテン</button>
+                <button class="control-btn btn-gray">TV</button>
+            </div>
+            <!-- ▲▲▲ 新しいウィンドウここまで ▲▲▲ -->
         </div>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- ▼▼▼ カレンダーとYouTubeを横並びに表示 ▼▼▼ -->
-  <div id="main-area">
-    <div class="left-area">
-      <div id="calendar-header">
-        <button id="cal-prev" class="cal-nav-btn" aria-label="前の月">◀</button>
-        <div id="current-month">読み込み中...</div>
-        <button id="cal-next" class="cal-nav-btn" aria-label="次の月">▶</button>
-        <button id="cal-refresh" class="cal-nav-btn" title="再読み込み">⟳</button>
-      </div>
-      <div id="calendar"></div>
-      <!-- ▼▼▼ カレンダー下の枠（仮） ▼▼▼ -->
-      <div id="calendar-bottom-box">
-        
-        
-        
-<!-- 睡眠データの棒グラフサンプル（睡眠時間のみ） -->
-<div style="width: 520px; margin: 32px auto;">
-  <div style="text-align:center; font-weight:bold; font-size:20px; margin-bottom:12px;">
-    1週間の睡眠データ
-  </div>
-  <div style="display: flex; align-items: flex-end; height: 140px; gap: 12px;">
-    <!-- 月 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">月<br>6/10</div>
-      <div style="font-size:11px; color:#333;">6.0h</div>
-    </div>
-    <!-- 火 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:90px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">火<br>6/11</div>
-      <div style="font-size:11px; color:#333;">7.5h</div>
-    </div>
-    <!-- 水 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:60px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">水<br>6/12</div>
-      <div style="font-size:11px; color:#333;">5.0h</div>
-    </div>
-    <!-- 木 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:96px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">木<br>6/13</div>
-      <div style="font-size:11px; color:#333;">8.0h</div>
-    </div>
-    <!-- 金 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:78px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">金<br>6/14</div>
-      <div style="font-size:11px; color:#333;">6.5h</div>
-    </div>
-    <!-- 土 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:84px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">土<br>6/15</div>
-      <div style="font-size:11px; color:#333;">7.0h</div>
-    </div>
-    <!-- 日 -->
-    <div style="display:flex; flex-direction:column; align-items:center;">
-      <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:12px; margin-top:4px;">日<br>6/16</div>
-      <div style="font-size:11px; color:#333;">6.0h</div>
-    </div>
-  </div>
-  <div style="margin-top:12px; font-size:13px;">
-    <span style="display:inline-block;width:16px;height:12px;background:#4caf50;vertical-align:middle;margin-right:4px;"></span>睡眠時間
-  </div>
-</div>
-
-
-      </div>
-      <!-- ▲▲▲ カレンダー下の枠ここまで ▲▲▲ -->
-      <!-- ▼▼▼ 新しいウィンドウ（仮） ▼▼▼ -->
-      <div id="calendar-extra-box">
-        <button class="control-btn btn-green">ON</button>
-        <button class="control-btn btn-red">OFF</button>
-        <button class="control-btn btn-blue">照明</button>
-        <button class="control-btn btn-orange">AC</button>
-        <button class="control-btn btn-purple">カーテン</button>
-        <button class="control-btn btn-gray">TV</button>
-      </div>
-      <!-- ▲▲▲ 新しいウィンドウここまで ▲▲▲ -->
-    </div>
-    <div id="right-area">
-      <!-- YouTube -->
-      <div class="video-wrapper">
-        <iframe 
-          id="youtube-iframe"
-          src="https://www.youtube.com/embed/Kodo4moG5n0"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <div class="yt-caption">おすすめ動画</div>
-      <div class="yt-nav">
-        <button id="yt-prev">&#8592;</button>
-        <button id="yt-next">&#8594;</button>
-      </div>
-      <!-- ▼▼▼ YouTube URL入力フォーム ▼▼▼ -->
-      <div id="youtube-url-form">
-        <input id="youtube-url-input" type="text" placeholder="YouTube動画のURLを入力">
-        <button id="youtube-url-play">再生</button>
-      </div>
-      <!-- RSSリーダー -->
-      <div id="rss-reader">
-        <h3>最新ニュース（RSS）</h3>
-        <div id="rss-list">読み込み中...</div>
-        <div id="current-time"></div>
-        <div id="rss-updated" style="font-size:12px;color:#555;margin-top:4px;">最終更新: -</div>
-      </div>
-      <!-- 天気予報 -->
-      <div id="weather">
-        <h2>天気予報 (鹿児島市)</h2>
-        <div class="weather-row">
-          <p id="weather-info">天気情報を読み込み中...</p>
+        <div id="right-area">
+            <!-- YouTube -->
+            <div class="video-wrapper">
+                <iframe id="youtube-iframe"
+                        src="https://www.youtube.com/embed/Kodo4moG5n0"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="yt-caption">おすすめ動画</div>
+            <div class="yt-nav">
+                <button id="yt-prev">&#8592;</button>
+                <button id="yt-next">&#8594;</button>
+            </div>
+            <!-- ▼▼▼ YouTube URL入力フォーム ▼▼▼ -->
+            <div id="youtube-url-form">
+                <input id="youtube-url-input" type="text" placeholder="YouTube動画のURLを入力">
+                <button id="youtube-url-play">再生</button>
+            </div>
+            <!-- RSSリーダー -->
+            <div id="rss-reader">
+                <h3>最新ニュース（RSS）</h3>
+                <div id="rss-list">読み込み中...</div>
+                <div id="current-time"></div>
+                <div id="rss-updated" style="font-size:12px;color:#555;margin-top:4px;">最終更新: -</div>
+            </div>
+            <!-- 天気予報 -->
+            <div id="weather">
+                <h2>天気予報 (鹿児島市)</h2>
+                <div class="weather-row">
+                    <p id="weather-info">天気情報を読み込み中...</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- 画像切り替えボタン -->
-  <div id="btn-prev" class="bg-switch-btn" title="前の画像へ"><</div>
-  <div id="btn-next" class="bg-switch-btn" title="次の画像へ">></div>
+    <!-- 画像切り替えボタン -->
+    <div id="btn-prev" class="bg-switch-btn" title="前の画像へ"><</div>
+    <div id="btn-next" class="bg-switch-btn" title="次の画像へ">></div>
 
-  <script>
-    // Google Calendar API キーとカレンダーID (公開しない環境でのみハードコード。公開時は必ず制限を設定)
-    window.GCAL_API_KEY = 'AIzaSyDycfeSPSwNuh1J04iCvGLwHOR1OWpo8as';
-    window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
-  </script>
-  <script src="script.js"></script>
+    <script>
+        // Google Calendar API キーとカレンダーID (公開しない環境でのみハードコード。公開時は必ず制限を設定)
+        window.GCAL_API_KEY = 'AIzaSyDycfeSPSwNuh1J04iCvGLwHOR1OWpo8as';
+        window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
+    </script>
+    <script src="script.js"></script>
+    
 
-  <!-- やまさき　-->
+
+
 </body>
 </html>
