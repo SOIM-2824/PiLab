@@ -1,12 +1,21 @@
 <!DOCTYPE html>  <!---->
 <html lang="ja">
 <head>
+  <!-- ▼▼▼  ログイン判定関係 ▼▼▼ -->
+<script src="once-per-day-redirect.js?v=3"              
+        data-redirect-url="./login.html"
+        data-timezone="Asia/Tokyo"
+        data-storage-key="oncePerDayRedirectDate"
+        data-skip-param="no-redirect"></script> 
+
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>カレンダーと天気予報</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <nav id="top-menu">
     <ul>
       <li><a href="#">ホーム</a></li>
@@ -154,6 +163,6 @@
     window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
   </script>
   <script src="script.js"></script>
-<!-- aaaa -->
+
 </body>
 </html>
