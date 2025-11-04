@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>YouTubeアラーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSSファイルを読み込み -->
+    <link rel="stylesheet" href="CSS/alarm.css" />
+</head>
+<body>
+    <nav id="top-menu">
+        <ul>
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="#">カレンダー</a></li>
+            <li><a href="#">アラーム</a></li>
+            <li><a href="login.html">ログインボーナス</a></li>
+            <li>
+                <a href="#" id="weather-menu-btn">天気予報</a>
+                <div id="weather-dropdown">
+                    <div id="weekly-weather">
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <br><br>
+    <div id="dateTimeDisplay"></div>
+    <div id="currentTimeDisplay">12:00</div>
+
+    <div class="sliders-container">
+        <div class="slider-container">
+            <label>時間</label>
+            <input type="range" id="hourRange" min="0" max="23" value="12" />
+            <div class="value-display" id="hourValue">12</div>
+        </div>
+        <div class="slider-container">
+            <label>分</label>
+            <input type="range" id="minuteRange" min="0" max="59" value="0" />
+            <div class="value-display" id="minuteValue">00</div>
+        </div>
+    </div>
+
+    <label for="alarmDate">日付を選択</label>
+    <input type="date" id="alarmDate" />
+
+    <button id="toggleVideoSaveBtn" class="toggle-btn">▶ 動画を保存</button>
+    <div id="videoSaveSection" class="fold-section">
+        <label for="youtubeName">動画の名前</label>
+        <input type="text" id="youtubeName" placeholder="例: 朝の目覚まし" />
+        <label for="youtubeUrl">YouTube動画リンク</label>
+        <input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=xxxxxx" />
+        <button id="addToListBtn">保存</button>
+    </div>
+
+    <button id="toggleRelativeAlarmBtn" class="toggle-btn">▶ 時間後アラームを設定する</button>
+    <div id="relativeAlarmSection" class="fold-section">
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <input type="number" id="afterHours" min="0" value="0" style="width: 80px;" /> 時間
+            <input type="number" id="afterMinutes" min="0" value="1" style="width: 80px;" /> 分
+        </div>
+        <button id="setRelativeAlarmBtn">⏰ 時間後アラームをセット</button>
+    </div>
+
+    <div>
+        <label for="videoSelect">アラーム動画を選ぶ</label>
+        <select id="videoSelect">
+            <option value="">-- リストから選択 --</option>
+        </select>
+        <button id="deleteVideoBtn" style="margin-top: 5px;">選択した動画を削除</button>
+    </div>
+
+    <div>
+        <button id="setAlarmBtn">アラームをセット</button>
+    </div>
+
+    <div id="videoContainer" style="display:none;">
+        <iframe id="youtubePlayer" src="" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+        <button id="stopAlarmBtn" style="margin-top: 10px;">🔇 アラーム停止</button>
+        <button id="snoozeAlarmBtn" style="margin-top: 10px; margin-left: 10px;">🕔 スヌーズ（5分）</button>
+    </div>
+
+    <h3>アラーム履歴</h3>
+    <ul id="alarmHistory" style="text-align: left; font-size: 14px; list-style: none; padding: 0;"></ul>
+
+    <!-- JSファイルを読み込み -->
+    <script src="JS/alarm.js"></script>
+</body>
+</html>
