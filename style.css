@@ -109,7 +109,7 @@ a:active {
 
 /* Calendar Header with navigation */
 #calendar-header { display:flex; align-items:center; justify-content:center; gap:12px; margin:0 auto 10px auto; max-width:700px; background:rgba(255,255,255,0.8); padding:8px 12px; border-radius:8px; }
-#calendar-header #current-month { margin:0; background:transparent; pa dding:0; }
+#calendar-header #current-month { margin:0; background:transparent; padding:0; }
 .cal-nav-btn { cursor:pointer; border:none; background:#1976d2; color:#fff; font-size:18px; width:40px; height:40px; border-radius:8px; transition:background .2s; }
 .cal-nav-btn:hover { background:#145da3; }
 .cal-nav-btn:disabled { opacity:0.5; cursor:default; }
