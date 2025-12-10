@@ -1,18 +1,11 @@
-<!DOCTYPE html>  <!--t  est-->
+<!DOCTYPE html>
+  <!---->
 <html lang="ja">
 <head>
-  <!-- ▼▼▼  ログイン判定関係 ▼▼▼ -->
-<script src="once-per-day-redirect.js?v=3"              
-        data-redirect-url="./login.html"
-        data-timezone="Asia/Tokyo"
-        data-storage-key="oncePerDayRedirectDate"
-        data-skip-param="no-redirect"></script> 
-
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>カレンダーと天気予報</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>カレンダーと天気予報</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <!--ログインボーナスとアラームを追加-->
@@ -45,77 +38,17 @@
             </div>
             <div id="calendar"></div>
             <!-- ▼▼▼ カレンダー下の枠（仮） ▼▼▼ -->
-            <div id="calendar-bottom-box">
+            <!-- 睡眠データの棒グラフサンプル（睡眠時間のみ） -->
+
+
+            <iframe src="graph.html" style="display: flex; align-items: flex-end; width: 693px; height: 600px; gap: 12px; background-color: rgba(255, 255, 255, 0.7); border-radius: 16px; position: absolute; top: 655px; right: 820px; "></iframe>
 
 
 
-                <!-- 睡眠データの棒グラフサンプル（睡眠時間のみ） -->
-                <div style="width: 520px; margin: 32px auto;">
-                    <div style="text-align:center; font-weight:bold; font-size:20px; margin-bottom:12px;">
-                        1週間の睡眠データ
-                    </div>
-                    <div style="display: flex; align-items: flex-end; height: 140px; gap: 12px;">
-                        <!-- 月 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">月<br>6/10</div>
-                            <div style="font-size:11px; color:#333;">6.0h</div>
-                        </div>
-                        <!-- 火 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:90px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">火<br>6/11</div>
-                            <div style="font-size:11px; color:#333;">7.5h</div>
-                        </div>
-                        <!-- 水 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:60px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">水<br>6/12</div>
-                            <div style="font-size:11px; color:#333;">5.0h</div>
-                        </div>
-                        <!-- 木 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:96px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">木<br>6/13</div>
-                            <div style="font-size:11px; color:#333;">8.0h</div>
-                        </div>
-                        <!-- 金 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:78px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">金<br>6/14</div>
-                            <div style="font-size:11px; color:#333;">6.5h</div>
-                        </div>
-                        <!-- 土 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:84px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">土<br>6/15</div>
-                            <div style="font-size:11px; color:#333;">7.0h</div>
-                        </div>
-                        <!-- 日 -->
-                        <div style="display:flex; flex-direction:column; align-items:center;">
-                            <div style="background:#4caf50; width:32px; height:72px; border-radius:4px 4px 0 0;"></div>
-                            <div style="font-size:12px; margin-top:4px;">日<br>6/16</div>
-                            <div style="font-size:11px; color:#333;">6.0h</div>
-                        </div>
-                    </div>
-                    <div style="margin-top:12px; font-size:13px;">
-                        <span style="display:inline-block;width:16px;height:12px;background:#4caf50;vertical-align:middle;margin-right:4px;"></span>睡眠時間
-                    </div>
-                </div>
 
 
-            </div>
+
             <!-- ▲▲▲ カレンダー下の枠ここまで ▲▲▲ -->
-            <!-- ▼▼▼ 新しいウィンドウ（仮） ▼▼▼ -->
-            <div id="calendar-extra-box">
-                <button class="control-btn btn-green">ON</button>
-                <button class="control-btn btn-red">OFF</button>
-                <button class="control-btn btn-blue">照明</button>
-                <button class="control-btn btn-orange">AC</button>
-                <button class="control-btn btn-purple">カーテン</button>
-                <button class="control-btn btn-gray">TV</button>
-            </div>
-            <!-- ▲▲▲ 新しいウィンドウここまで ▲▲▲ -->
         </div>
         <div id="right-area">
             <!-- YouTube -->
@@ -163,8 +96,9 @@
         window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
     </script>
     <script src="script.js"></script>
-    
 
+    <iframe src="login window.html"
+            style="width: 22%; height: 270px; background-color: rgba(255, 255, 255, 0.5); border: none; border-radius: 16px; position: absolute; top: 990px; right: 370px;"></iframe>
 
 
 </body>

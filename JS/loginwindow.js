@@ -6,7 +6,7 @@ let data = {
     missedDays: 0,
     finished: false,
     lastLoginDate: null,
-    cells: Array(DAYS).fill(null) // å„ãƒã‚¹ã®çŠ¶æ…‹ {checked, missed}
+    cells: Array(DAYS).fill(null) // Šeƒ}ƒX‚Ìó‘Ô {checked, missed}
 };
 
 const calendarEl = document.getElementById("calendar");
@@ -49,11 +49,11 @@ function loadData() {
         const last = data.lastLoginDate ? new Date(data.lastLoginDate) : null;
 
         if (last) {
-            // çµŒéæ—¥æ•°ã‚’è¨ˆç®—ï¼ˆUTCæ›ç®—ã§1æ—¥å˜ä½ï¼‰
+            // Œo‰ß“ú”‚ğŒvZiUTCŠ·Z‚Å1“ú’PˆÊj
             const diffDays = Math.floor((today - last) / (1000 * 60 * 60 * 24));
 
             if (diffDays > 0 && !data.finished) {
-                // çµŒéã—ãŸæ—¥æ•°åˆ†ã€currentDayã‚’é€²ã‚ã‚‹
+                // Œo‰ß‚µ‚½“ú”•ªAcurrentDay‚ği‚ß‚é
                 data.currentDay += diffDays;
                 if (data.currentDay >= DAYS) {
                     data.currentDay = DAYS - 1;
@@ -67,7 +67,7 @@ function loadData() {
 function login() {
     const today = new Date().toDateString();
 
-    // 14æ—¥å®Œäº†å¾Œã€æ¬¡ãƒ­ã‚°ã‚¤ãƒ³ã§ãƒªã‚»ãƒƒãƒˆ
+    // 14“úŠ®—¹ŒãAŸƒƒOƒCƒ“‚ÅƒŠƒZƒbƒg
     if (data.finished) {
         resetCalendar();
         data.finished = false;
@@ -76,31 +76,31 @@ function login() {
         data.lastLoginDay = 0;
         data.lastLoginDate = today;
         updateCalendar();
-        statusEl.textContent = "æ–°ã—ã„ãƒ­ã‚°ã‚¤ãƒ³ã‚µã‚¤ã‚¯ãƒ«ã‚’é–‹å§‹ã—ã¾ã—ãŸï¼";
+        statusEl.textContent = "V‚µ‚¢ƒƒOƒCƒ“ƒTƒCƒNƒ‹‚ğŠJn‚µ‚Ü‚µ‚½I";
         return;
     }
 
-    // åŒã˜æ—¥ã«è¤‡æ•°å›ãƒ­ã‚°ã‚¤ãƒ³é˜²æ­¢
+    // “¯‚¶“ú‚É•¡”‰ñƒƒOƒCƒ“–h~
     if (data.lastLoginDate === today) {
-        statusEl.textContent = "ä»Šæ—¥ã¯ã™ã§ã«ãƒ­ã‚°ã‚¤ãƒ³æ¸ˆã¿ã§ã™ã€‚";
+        statusEl.textContent = "¡“ú‚Í‚·‚Å‚ÉƒƒOƒCƒ“Ï‚İ‚Å‚·B";
         return;
     }
 
-    // å‰å›ãƒ­ã‚°ã‚¤ãƒ³æ—¥ã‹ã‚‰ã®çµŒéæ—¥æ•°ã‚’è¨ˆç®—
+    // ‘O‰ñƒƒOƒCƒ““ú‚©‚ç‚ÌŒo‰ß“ú”‚ğŒvZ
     let diff = data.currentDay - data.lastLoginDay - 1;
     if (diff < 0) diff = 0;
 
-    // æœªãƒ­ã‚°ã‚¤ãƒ³æ—¥ãƒãƒ¼ã‚¯
+    // –¢ƒƒOƒCƒ““úƒ}[ƒN
     for (let i = data.lastLoginDay + 1; i < data.currentDay; i++) {
         if (i >= 0 && i < DAYS) {
             data.cells[i] = { checked: false, missed: true };
         }
     }
 
-    // ä»Šæ—¥ã®ãƒ­ã‚°ã‚¤ãƒ³ã‚’ãƒãƒ¼ã‚¯
+    // ¡“ú‚ÌƒƒOƒCƒ“‚ğƒ}[ƒN
     if (data.currentDay < DAYS) {
         data.cells[data.currentDay] = { checked: true, missed: false };
-        statusEl.textContent = `ãƒ­ã‚°ã‚¤ãƒ³å®Œäº†ï¼ï¼ˆ${data.currentDay + 1}æ—¥ç›®ï¼‰ æœªãƒ­ã‚°ã‚¤ãƒ³ï¼š${diff}æ—¥`;
+        statusEl.textContent = `ƒƒOƒCƒ“Š®—¹Ii${data.currentDay + 1}“ú–Új –¢ƒƒOƒCƒ“F${diff}“ú`;
     }
 
     data.missedDays += diff;
@@ -108,10 +108,10 @@ function login() {
     data.lastLoginDate = today;
     updateCalendar();
 
-    // 14æ—¥ç›®å®Œäº†
+    // 14“ú–ÚŠ®—¹
     if (data.currentDay === DAYS - 1) {
         data.finished = true;
-        statusEl.textContent = "14æ—¥ç›®ãƒ­ã‚°ã‚¤ãƒ³å®Œäº†ï¼ æ¬¡å›ãƒ­ã‚°ã‚¤ãƒ³æ™‚ã«ãƒªã‚»ãƒƒãƒˆã•ã‚Œã¾ã™ã€‚";
+        statusEl.textContent = "14“ú–ÚƒƒOƒCƒ“Š®—¹I Ÿ‰ñƒƒOƒCƒ“‚ÉƒŠƒZƒbƒg‚³‚ê‚Ü‚·B";
     }
 }
 
@@ -119,10 +119,10 @@ function nextDay() {
     data.currentDay++;
     if (data.currentDay >= DAYS) {
         data.currentDay = DAYS - 1;
-        statusEl.textContent = "14æ—¥ç›®ä»¥é™ã§ã™ã€‚æ¬¡å›ãƒ­ã‚°ã‚¤ãƒ³ã§ãƒªã‚»ãƒƒãƒˆã•ã‚Œã¾ã™ã€‚";
+        statusEl.textContent = "14“ú–ÚˆÈ~‚Å‚·BŸ‰ñƒƒOƒCƒ“‚ÅƒŠƒZƒbƒg‚³‚ê‚Ü‚·B";
         return;
     }
-    statusEl.textContent = `ç¿Œæ—¥ã«é€²ã¿ã¾ã—ãŸï¼ˆç¾åœ¨ï¼š${data.currentDay + 1}æ—¥ç›®ï¼‰`;
+    statusEl.textContent = `—‚“ú‚Éi‚İ‚Ü‚µ‚½iŒ»İF${data.currentDay + 1}“ú–Új`;
     saveData();
 }
 
@@ -137,43 +137,13 @@ function resetCalendar() {
     };
     updateCalendar();
     saveData();
-    statusEl.textContent = "ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã—ãŸã€‚";
+    statusEl.textContent = "ƒJƒŒƒ“ƒ_[‚ğƒŠƒZƒbƒg‚µ‚Ü‚µ‚½B";
 }
 
-const imageList = [
-    "GRP/ãƒ©ã‚¯ã‚¬ã‚­ãŒå½©ã‚‹å±±ã€….png",
-    "GRP/æš—æ½®ãŒã“ã ã¾ã™ã‚‹æ‰€.png",
-    "GRP/å‹åˆ©ã¨æ „èª‰ã‚’æ±‚ã‚ã‚‹æˆ¦å ´.png",
-    "GRP/ãƒšãƒˆãƒªã‚³ãƒ¼ãƒ«ã®ç¾ã—ãä¼èª¬.png",
-    "GRP/æµ·è¾ºã®æ‘ã®é¢¨æ™¯.png",
-    "GRP/çœ ã‚‹æ°¸é ã®éƒ½.png",
-    "GRP/é›¨æ—ï¼‘.jpg",
-    "GRP/å³¡è°·ï¼‘.jpg",
-    "GRP/å³¡è°·ï¼’.jpg"
-];
-
-let currentIndex = 0;
-let autoChangeInterval;
-function setBackground(index) {
-    if (index < 0) index = imageList.length - 1;
-    else if (index >= imageList.length) index = 0;
-    currentIndex = index;
-    const imageUrl = imageList[currentIndex];
-    document.body.style.backgroundImage = `url('${imageUrl}')`;
-}
-function startAutoChange() {
-    autoChangeInterval = setInterval(() => { setBackground(currentIndex + 1); }, 7000);
-}
-function resetAutoChange() { clearInterval(autoChangeInterval); startAutoChange(); }
-
-setBackground(currentIndex);
-startAutoChange();
-// Background buttons
-document.getElementById('btn-prev')?.addEventListener('click', () => { setBackground(currentIndex - 1); resetAutoChange(); });
-document.getElementById('btn-next')?.addEventListener('click', () => { setBackground(currentIndex + 1); resetAutoChange(); });
 
 createCalendar();
 loadData();
 updateCalendar();
 
 document.getElementById("loginBtn").addEventListener("click", login);
+

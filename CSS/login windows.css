@@ -3,10 +3,7 @@ body {
     background: #f0f8ff;
     text-align: center;
     padding: 20px;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    transition: background-image 1s ease-in-out;
+    
 }
 
 
@@ -22,17 +19,6 @@ h1 {
     margin-top: 20px;
 }
 
-.box {
-    width: 500px; /* ‰¡• */
-    height: 320px; /* ‚‚³ */
-    padding: 20px; /* “à‘¤‚Ì—]”’ */
-    border: 3px solid #333; /* ˜gü */
-    background-color: rgba(255,255,255,1); /* ”¼“§–¾”wŒi */
-    border-radius: 12px; /* Šp‚ğŠÛ‚­ */
-    position: absolute;
-    top: 15%;
-    left: 35%;
-}
 
 .cell {
     width: 45px;

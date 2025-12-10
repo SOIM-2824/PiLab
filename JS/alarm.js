@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
     const hourRange = document.getElementById("hourRange");
     const minuteRange = document.getElementById("minuteRange");
     const hourValue = document.getElementById("hourValue");
