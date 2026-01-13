@@ -1,0 +1,950 @@
+<!DOCTYPE html>  <!--t  est-->
+<html lang="ja">
+<head>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>カレンダーと天気予報</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body>
+    <!--ログインボーナスとアラームを追加-->
+    <nav id="top-menu">
+        <ul>
+            <li><a href="index.html" class="active">ホーム</a></li>
+            <li><a href="calendar.html">カレンダー</a></li>
+            <li><a href="alarm.html">アラーム</a></li>
+            <li><a href="weather.html">天気予報</a></li>
+        </ul>
+    </nav>
+
+    <!-- ▼▼▼ 3カラムレイアウト ▼▼▼ -->
+    <div id="main-area">
+        <!-- 左サイドバー: 天気 -->
+        <div id="left-sidebar">
+            <div id="weather" class="glass-card">
+                <div class="home-weather">
+                    <div class="weather-header">� 鹿児島市</div>
+                    <img class="weather-icon-large" id="home-weather-icon" src="" alt="">
+                    <div class="weather-temp-main" id="home-weather-temp">--°</div>
+                    <div class="weather-desc" id="home-weather-desc">読み込み中...</div>
+                    <div class="weather-feels" id="home-weather-feels">体感温度: --°</div>
+                    <div class="weather-details-row">
+                        <span id="home-weather-humidity">湿度: --%</span>
+                        <span id="home-weather-wind">風: -- m/s</span>
+                    </div>
+                </div>
+            </div>
+            <div id="rss-reader" class="glass-card">
+                <h3>📰 最新ニュース</h3>
+                <div id="rss-list">読み込み中...</div>
+                <div id="current-time"></div>
+                <div id="rss-updated" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;">最終更新: -</div>
+            </div>
+            
+            <!-- アラームウィジェット -->
+            <div id="alarm-widget" class="glass-card">
+                <h3>⏰ アラーム</h3>
+                <div class="alarm-display">
+                    <div class="alarm-time" id="alarm-time-display">--:--</div>
+                    <div class="alarm-status" id="alarm-status-text">未設定</div>
+                </div>
+                <div class="alarm-controls">
+                    <input type="time" id="alarm-time-input" value="07:00">
+                    <button id="alarm-set-btn" onclick="toggleAlarm()">セット</button>
+                </div>
+                <div class="alarm-remaining" id="alarm-remaining"></div>
+            </div>
+        </div>
+
+        <!-- 中央エリア: カレンダー + 時計 + YouTube -->
+        <div id="center-area">
+            <div id="clock-widget">
+                <div class="flip-clock">
+                    <div class="flip-unit-container">
+                        <div class="flip-unit" id="flip-hour-tens">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                        <div class="flip-unit" id="flip-hour-ones">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-colon blink">:</div>
+                    <div class="flip-unit-container">
+                        <div class="flip-unit" id="flip-min-tens">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                        <div class="flip-unit" id="flip-min-ones">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-colon blink">:</div>
+                    <div class="flip-unit-container">
+                        <div class="flip-unit flip-unit-sec" id="flip-sec-tens">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                        <div class="flip-unit flip-unit-sec" id="flip-sec-ones">
+                            <div class="flip-card">
+                                <div class="flip-card-top"><span>0</span></div>
+                                <div class="flip-card-bottom"><span>0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="big-date">読み込み中...</div>
+            </div>
+
+            <div id="calendar-header">
+                <button id="cal-prev" class="cal-nav-btn" aria-label="前の月">◀</button>
+                <div id="current-month">読み込み中...</div>
+                <button id="cal-next" class="cal-nav-btn" aria-label="次の月">▶</button>
+                <button id="cal-refresh" class="cal-nav-btn" title="再読み込み">⟳</button>
+            </div>
+            <div id="calendar"></div>
+        </div>
+
+        <!-- 右サイドバー: YouTube + 睡眠データ -->
+        <div id="right-sidebar">
+            <div class="glass-card">
+                <h3>🎬 YouTube</h3>
+                <div class="video-wrapper">
+                    <iframe id="youtube-iframe"
+                            src="https://www.youtube.com/embed/Kodo4moG5n0"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="yt-controls-row">
+                    <div class="yt-nav">
+                        <button id="yt-prev">&#8592;</button>
+                        <button id="yt-next">&#8594;</button>
+                    </div>
+                    <input id="youtube-url-input" type="text" placeholder="URLを入力">
+                    <button id="youtube-url-play">再生</button>
+                </div>
+            </div>
+            <div id="sleep-widget" class="glass-card">
+                <h3>😴 睡眠データ</h3>
+                <div id="sleep-summary">データを読み込み中...</div>
+                <div class="sleep-recorder-controls" style="margin-top: 10px; display: flex; gap: 8px; align-items: center;">
+                    <button id="sleep-recorder-toggle" onclick="toggleSleepRecorder()" style="padding: 6px 14px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer;">記録開始</button>
+                    <span id="sleep-recorder-status" style="font-size: 11px; color: var(--text-secondary);">停止中</span>
+                </div>
+            </div>
+            <!-- 睡眠グラフ -->
+            <div id="sleep-chart-box" class="glass-card">
+                <div class="sleep-chart-title">1週間の睡眠データ</div>
+                <div class="sleep-chart-container">
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:50%;"></div>
+                        <div class="sleep-day-label">月</div>
+                        <div class="sleep-hours">6.0h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:62.5%;"></div>
+                        <div class="sleep-day-label">火</div>
+                        <div class="sleep-hours">7.5h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:41.7%;"></div>
+                        <div class="sleep-day-label">水</div>
+                        <div class="sleep-hours">5.0h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:66.7%;"></div>
+                        <div class="sleep-day-label">木</div>
+                        <div class="sleep-hours">8.0h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:54.2%;"></div>
+                        <div class="sleep-day-label">金</div>
+                        <div class="sleep-hours">6.5h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:58.3%;"></div>
+                        <div class="sleep-day-label">土</div>
+                        <div class="sleep-hours">7.0h</div>
+                    </div>
+                    <div class="sleep-bar-item">
+                        <div class="sleep-bar" style="height:50%;"></div>
+                        <div class="sleep-day-label">日</div>
+                        <div class="sleep-hours">6.0h</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // Google Calendar API キーとカレンダーID (公開しない環境でのみハードコード。公開時は必ず制限を設定)
+        window.GCAL_API_KEY = 'AIzaSyDycfeSPSwNuh1J04iCvGLwHOR1OWpo8as';
+        window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
+    </script>
+    <script src="JS/script.js"></script>
+    
+    <!-- CSV Data Loader (睡眠データ等) -->
+    <script src="JS/csvLoader.js"></script>
+    
+    <!-- 睡眠レコーダー制御 -->
+    <script>
+        let sleepRecorderRunning = false;
+        
+        // 睡眠レコーダーの状態を確認
+        async function checkSleepRecorderStatus() {
+            try {
+                const response = await fetch('api/sleep_control.php?action=status');
+                const status = await response.json();
+                sleepRecorderRunning = status.running;
+                updateRecorderUI();
+            } catch (e) {
+                console.log('[SleepRecorder] Status check failed:', e);
+            }
+        }
+        
+        // UIを更新
+        function updateRecorderUI() {
+            const btn = document.getElementById('sleep-recorder-toggle');
+            const statusEl = document.getElementById('sleep-recorder-status');
+            
+            if (sleepRecorderRunning) {
+                btn.textContent = '記録停止';
+                btn.style.background = '#e74c3c';
+                btn.style.color = '#fff';
+                statusEl.textContent = '記録中...';
+                statusEl.style.color = '#4caf50';
+            } else {
+                btn.textContent = '記録開始';
+                btn.style.background = 'var(--accent)';
+                btn.style.color = '#000';
+                statusEl.textContent = '停止中';
+                statusEl.style.color = 'var(--text-secondary)';
+            }
+        }
+        
+        // 睡眠レコーダーの開始/停止
+        async function toggleSleepRecorder() {
+            const btn = document.getElementById('sleep-recorder-toggle');
+            btn.disabled = true;
+            btn.textContent = '処理中...';
+            
+            try {
+                const action = sleepRecorderRunning ? 'stop' : 'start';
+                const response = await fetch(`api/sleep_control.php?action=${action}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    sleepRecorderRunning = !sleepRecorderRunning;
+                } else {
+                    alert(result.message || 'エラーが発生しました');
+                }
+            } catch (e) {
+                console.error('[SleepRecorder] Toggle failed:', e);
+                alert('サーバーに接続できませんでした');
+            }
+            
+            btn.disabled = false;
+            updateRecorderUI();
+        }
+        
+        // 初期状態チェック  
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSleepRecorderStatus();
+            // 30秒ごとにステータス確認
+            setInterval(checkSleepRecorderStatus, 30000);
+        });
+    </script>
+    
+    <!-- 緊急地震速報モジュール -->
+    <script src="JS/earthquake.js"></script>
+    
+    <!-- 緊急地震速報オーバーレイ -->
+    <div id="eew-overlay" style="display: none;">
+        <div class="eew-content">
+            <div class="eew-header">
+                <span class="eew-icon">⚠️</span>
+                <span class="eew-title">緊急地震速報</span>
+            </div>
+            <div class="eew-body">
+                <div class="eew-epicenter" id="eew-epicenter">震源情報取得中...</div>
+                <div class="eew-info">
+                    <div class="eew-info-item">
+                        <span class="label">最大震度</span>
+                        <span class="value" id="eew-intensity">--</span>
+                    </div>
+                    <div class="eew-info-item">
+                        <span class="label">マグニチュード</span>
+                        <span class="value" id="eew-magnitude">--</span>
+                    </div>
+                    <div class="eew-info-item">
+                        <span class="label">深さ</span>
+                        <span class="value" id="eew-depth">--</span>
+                    </div>
+                </div>
+                <div class="eew-message">強い揺れに警戒してください</div>
+            </div>
+            <button class="eew-close-btn" onclick="closeEEWOverlay()">閉じる</button>
+        </div>
+    </div>
+    
+    <!-- 接続状態インジケーター群 -->
+    <div id="status-bar">
+        <div class="status-item" id="weather-status" title="天気API">
+            <span class="status-dot"></span>
+            <span class="status-text">天気</span>
+        </div>
+        <div class="status-item" id="calendar-status" title="Google Calendar API">
+            <span class="status-dot"></span>
+            <span class="status-text">カレンダー</span>
+        </div>
+        <div class="status-item" id="rss-status" title="RSSフィード">
+            <span class="status-dot"></span>
+            <span class="status-text">ニュース</span>
+        </div>
+        <div class="status-item" id="alarm-status" title="アラーム">
+            <span class="status-dot"></span>
+            <span class="status-text">アラーム</span>
+        </div>
+        <div class="status-item" id="eew-status" title="地震速報" onclick="toggleTestPanel()">
+            <span class="status-dot"></span>
+            <span class="status-text">地震速報</span>
+        </div>
+    </div>
+    
+    <!-- テストボタンパネル -->
+    <div id="eew-test-panel" style="display: none;">
+        <div class="test-panel-header">🔔 緊急地震速報テスト</div>
+        <div class="test-buttons">
+            <button onclick="testEEWWithIntensity('震度3', 'M4.0')">震度3</button>
+            <button onclick="testEEWWithIntensity('震度4', 'M5.0')">震度4</button>
+            <button onclick="testEEWWithIntensity('震度5弱', 'M5.5')" class="warning">震度5弱</button>
+            <button onclick="testEEWWithIntensity('震度5強', 'M6.0')" class="warning">震度5強</button>
+            <button onclick="testEEWWithIntensity('震度6弱', 'M6.5')" class="danger">震度6弱</button>
+            <button onclick="testEEWWithIntensity('震度6強', 'M7.0')" class="danger">震度6強</button>
+            <button onclick="testEEWWithIntensity('震度7', 'M7.5')" class="extreme">震度7</button>
+        </div>
+        <button class="close-test-panel" onclick="toggleTestPanel()">閉じる</button>
+    </div>
+    
+    <style>
+        /* 緊急地震速報オーバーレイ */
+        #eew-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(139, 0, 0, 0.95);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: eewFlash 0.5s infinite;
+        }
+        
+        @keyframes eewFlash {
+            0%, 100% { background: rgba(139, 0, 0, 0.95); }
+            50% { background: rgba(180, 0, 0, 0.95); }
+        }
+        
+        .eew-content {
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid #ff0000;
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 0 60px rgba(255, 0, 0, 0.5);
+        }
+        
+        .eew-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .eew-icon {
+            font-size: 60px;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .eew-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+        
+        .eew-epicenter {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        
+        .eew-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .eew-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .eew-info-item .label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .eew-info-item .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffff00;
+        }
+        
+        .eew-message {
+            font-size: 24px;
+            color: #fff;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .eew-close-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: #333;
+            color: #fff;
+            border: 2px solid #666;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .eew-close-btn:hover {
+            background: #555;
+        }
+        
+        /* ステータスバー */
+        #status-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 16px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .status-item:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .status-item .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #888;
+            transition: all 0.3s;
+        }
+        
+        .status-item.connected .status-dot {
+            background: #4caf50;
+            box-shadow: 0 0 8px #4caf50;
+        }
+        
+        .status-item.loading .status-dot {
+            background: #ffc107;
+            animation: statusPulse 1s infinite;
+        }
+        
+        .status-item.disconnected .status-dot {
+            background: #f44336;
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* テストパネル */
+        #eew-test-panel {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            background: rgba(20, 20, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-panel-header {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        
+        .test-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .test-buttons button {
+            padding: 8px 12px;
+            font-size: 12px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .test-buttons button:hover {
+            background: #444;
+        }
+        
+        .test-buttons button.warning {
+            background: #8b5a00;
+            border-color: #ffa500;
+        }
+        
+        .test-buttons button.danger {
+            background: #8b0000;
+            border-color: #ff0000;
+        }
+        
+        .test-buttons button.extreme {
+            background: #4a0080;
+            border-color: #9900ff;
+            animation: extremePulse 1s infinite;
+        }
+        
+        @keyframes extremePulse {
+            0%, 100% { box-shadow: 0 0 5px #9900ff; }
+            50% { box-shadow: 0 0 15px #9900ff; }
+        }
+        
+        .close-test-panel {
+            width: 100%;
+            padding: 8px;
+            font-size: 12px;
+            background: #222;
+            color: #888;
+            border: 1px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        /* アラームオーバーレイ */
+        @keyframes alarmFlash {
+            0%, 100% { background: rgba(0, 100, 200, 0.95); }
+            50% { background: rgba(0, 150, 255, 0.95); }
+        }
+        
+        #alarm-overlay .alarm-popup {
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid #00aaff;
+            border-radius: 20px;
+            padding: 50px 80px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(0, 170, 255, 0.5);
+        }
+        
+        #alarm-overlay .alarm-icon {
+            font-size: 80px;
+            animation: alarmBounce 0.5s infinite;
+        }
+        
+        @keyframes alarmBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        #alarm-overlay .alarm-message {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin: 20px 0;
+        }
+        
+        #alarm-overlay .alarm-time-display {
+            font-size: 60px;
+            font-family: 'Orbitron', monospace;
+            color: #00aaff;
+            text-shadow: 0 0 30px rgba(0, 170, 255, 0.8);
+        }
+        
+        #alarm-overlay button {
+            margin-top: 30px;
+            padding: 15px 50px;
+            font-size: 20px;
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        #alarm-overlay button:hover {
+            filter: brightness(1.2);
+        }
+    </style>
+    
+    <script>
+        // 緊急地震速報初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            EarthquakeWarning.init({
+                onEEW: function(data) {
+                    showEEWOverlay(data);
+                },
+                onEarthquake: function(data) {
+                    // 地震情報（任意で通知）
+                    console.log('地震情報:', data);
+                },
+                onConnection: function(connected) {
+                    updateConnectionStatus(connected);
+                }
+            });
+        });
+        
+        function showEEWOverlay(data) {
+            const overlay = document.getElementById('eew-overlay');
+            document.getElementById('eew-epicenter').textContent = data.epicenter;
+            document.getElementById('eew-intensity').textContent = data.maxIntensity;
+            document.getElementById('eew-magnitude').textContent = data.magnitude;
+            document.getElementById('eew-depth').textContent = data.depth;
+            
+            overlay.style.display = 'flex';
+            
+            // 音声アラート（ブラウザ制限あり）
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbsGcuFzeV0d/RjVcpLGnF3+nUmGg3LFmv1OPepXxHOFqj0OHfrIlVQFqZzN/cpY1dSFqQx9neqJNlTViJw9jboZVsVlaEv9XZn5ZyW1V/u9HVnZV3X1R6t8vPlpR8Y1R1ssXMk5KBZ1Rxrb/IkJCGa1RsqLnDjI2Kb1VoordBJg==');
+                audio.volume = 1.0;
+                audio.play().catch(() => {});
+            } catch (e) {}
+            
+            // テストでない場合は自動で閉じない
+            if (data.isTest) {
+                setTimeout(() => closeEEWOverlay(), 10000);
+            }
+        }
+        
+        function closeEEWOverlay() {
+            document.getElementById('eew-overlay').style.display = 'none';
+        }
+        
+        // ステータス更新関数
+        function updateServiceStatus(serviceId, status) {
+            // status: 'connected', 'loading', 'disconnected'
+            const statusEl = document.getElementById(serviceId);
+            if (!statusEl) return;
+            
+            statusEl.classList.remove('connected', 'loading', 'disconnected');
+            statusEl.classList.add(status);
+        }
+        
+        function updateConnectionStatus(connected) {
+            updateServiceStatus('eew-status', connected ? 'connected' : 'disconnected');
+        }
+        
+        // 初期状態設定（ロード中）
+        document.addEventListener('DOMContentLoaded', function() {
+            updateServiceStatus('weather-status', 'loading');
+            updateServiceStatus('calendar-status', 'loading');
+            updateServiceStatus('rss-status', 'loading');
+            updateServiceStatus('eew-status', 'loading');
+        });
+        
+        // テスト用（コンソールから EarthquakeWarning.testEEW() で実行可能）
+        
+        function toggleTestPanel() {
+            const panel = document.getElementById('eew-test-panel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function testEEWWithIntensity(intensity, magnitude) {
+            const testData = {
+                type: 'eew',
+                title: '【テスト】緊急地震速報',
+                time: new Date().toISOString(),
+                epicenter: 'テスト震源（鹿児島県沖）',
+                magnitude: magnitude,
+                depth: '30km',
+                maxIntensity: intensity,
+                isWarning: true,
+                isTest: true
+            };
+            
+            showEEWOverlay(testData);
+            toggleTestPanel(); // パネルを閉じる
+        }
+        
+        // =============== アラーム機能 ===============
+        let alarmTime = null;
+        let alarmTimer = null;
+        let alarmCountdownTimer = null;
+        
+        // ページ読み込み時にアラームを復元
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAlarmFromStorage();
+        });
+        
+        function loadAlarmFromStorage() {
+            const saved = localStorage.getItem('homeAlarm');
+            if (saved) {
+                const data = JSON.parse(saved);
+                const savedTime = new Date(data.time);
+                
+                // まだ未来のアラームなら復元
+                if (savedTime > new Date()) {
+                    alarmTime = savedTime;
+                    document.getElementById('alarm-time-input').value = data.timeStr;
+                    startAlarmCountdown();
+                    updateAlarmUI(true);
+                }
+            }
+        }
+        
+        function toggleAlarm() {
+            if (alarmTime) {
+                // アラーム解除
+                cancelAlarm();
+            } else {
+                // アラームセット
+                setAlarm();
+            }
+        }
+        
+        function setAlarm() {
+            const timeInput = document.getElementById('alarm-time-input');
+            const timeStr = timeInput.value;
+            if (!timeStr) return;
+            
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            const now = new Date();
+            const target = new Date(now);
+            target.setHours(hours, minutes, 0, 0);
+            
+            // 既に過ぎている場合は翌日に設定
+            if (target <= now) {
+                target.setDate(target.getDate() + 1);
+            }
+            
+            alarmTime = target;
+            
+            // localStorageに保存
+            localStorage.setItem('homeAlarm', JSON.stringify({
+                time: target.toISOString(),
+                timeStr: timeStr
+            }));
+            
+            startAlarmCountdown();
+            updateAlarmUI(true);
+        }
+        
+        function cancelAlarm() {
+            alarmTime = null;
+            if (alarmTimer) clearTimeout(alarmTimer);
+            if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);
+            localStorage.removeItem('homeAlarm');
+            updateAlarmUI(false);
+        }
+        
+        function startAlarmCountdown() {
+            if (alarmCountdownTimer) clearInterval(alarmCountdownTimer);
+            
+            const updateRemaining = () => {
+                if (!alarmTime) return;
+                
+                const now = new Date();
+                const diff = alarmTime - now;
+                
+                if (diff <= 0) {
+                    triggerAlarm();
+                    return;
+                }
+                
+                const hours = Math.floor(diff / 3600000);
+                const mins = Math.floor((diff % 3600000) / 60000);
+                const secs = Math.floor((diff % 60000) / 1000);
+                
+                const remainingEl = document.getElementById('alarm-remaining');
+                if (remainingEl) {
+                    if (hours > 0) {
+                        remainingEl.textContent = `あと ${hours}時間${mins}分`;
+                    } else if (mins > 0) {
+                        remainingEl.textContent = `あと ${mins}分${secs}秒`;
+                    } else {
+                        remainingEl.textContent = `あと ${secs}秒`;
+                    }
+                }
+            };
+            
+            updateRemaining();
+            alarmCountdownTimer = setInterval(updateRemaining, 1000);
+        }
+        
+        function updateAlarmUI(isActive) {
+            const timeDisplay = document.getElementById('alarm-time-display');
+            const statusText = document.getElementById('alarm-status-text');
+            const setBtn = document.getElementById('alarm-set-btn');
+            const remainingEl = document.getElementById('alarm-remaining');
+            
+            if (isActive && alarmTime) {
+                const h = String(alarmTime.getHours()).padStart(2, '0');
+                const m = String(alarmTime.getMinutes()).padStart(2, '0');
+                timeDisplay.textContent = `${h}:${m}`;
+                timeDisplay.classList.add('active');
+                statusText.textContent = 'セット中';
+                statusText.classList.add('active');
+                setBtn.textContent = '解除';
+                setBtn.classList.add('cancel');
+                updateServiceStatus('alarm-status', 'connected');
+            } else {
+                timeDisplay.textContent = '--:--';
+                timeDisplay.classList.remove('active');
+                statusText.textContent = '未設定';
+                statusText.classList.remove('active');
+                setBtn.textContent = 'セット';
+                setBtn.classList.remove('cancel');
+                if (remainingEl) remainingEl.textContent = '';
+                updateServiceStatus('alarm-status', 'disconnected');
+            }
+        }
+        
+        function triggerAlarm() {
+            cancelAlarm();
+            
+            // アラーム発動！
+            const overlay = document.createElement('div');
+            overlay.id = 'alarm-overlay';
+            overlay.innerHTML = `
+                <div class="alarm-popup">
+                    <div class="alarm-icon">⏰</div>
+                    <div class="alarm-message">アラーム</div>
+                    <div class="alarm-time-display">${new Date().toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'})}</div>
+                    <button onclick="dismissAlarm()">停止</button>
+                </div>
+            `;
+            overlay.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(0, 100, 200, 0.95); z-index: 99999;
+                display: flex; align-items: center; justify-content: center;
+                animation: alarmFlash 0.5s infinite;
+            `;
+            document.body.appendChild(overlay);
+            
+            // 音を鳴らす
+            playAlarmSound();
+        }
+        
+        function dismissAlarm() {
+            const overlay = document.getElementById('alarm-overlay');
+            if (overlay) overlay.remove();
+            stopAlarmSound();
+        }
+        
+        let alarmAudio = null;
+        function playAlarmSound() {
+            // シンプルなビープ音
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.5;
+                
+                oscillator.start();
+                
+                // 繰り返しビープ
+                alarmAudio = { context: audioContext, oscillator, gainNode };
+                
+                let beepOn = true;
+                const beepInterval = setInterval(() => {
+                    if (!alarmAudio) {
+                        clearInterval(beepInterval);
+                        return;
+                    }
+                    beepOn = !beepOn;
+                    gainNode.gain.value = beepOn ? 0.5 : 0;
+                }, 500);
+                
+            } catch (e) {
+                console.error('Audio error:', e);
+            }
+        }
+        
+        function stopAlarmSound() {
+            if (alarmAudio) {
+                alarmAudio.oscillator.stop();
+                alarmAudio.context.close();
+                alarmAudio = null;
+            }
+        }
+        
+        // 初期状態設定
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!alarmTime) {
+                updateServiceStatus('alarm-status', 'disconnected');
+            }
+        });
+    </script>
+
+
+</body>
+</html>

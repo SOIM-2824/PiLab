@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>カレンダー - PiLab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <style>
+        /* Calendar Page Specific Styles */
+        #calendar-page-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            width: calc(100% - 40px);
+            margin: 80px 20px 20px 20px;
+            padding-top: 10px;
+        }
+
+        #cal-left-sidebar {
+            flex: 0 0 370px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #cal-center-area {
+            flex: 1;
+            max-width: 750px;
+            text-align: center;
+        }
+
+        #cal-right-sidebar {
+            flex: 0 0 370px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Login Streak Widget */
+        .streak-counter {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .streak-number {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .streak-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .login-history {
+            margin-top: 16px;
+        }
+
+        .login-history-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .login-calendar-mini {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .login-day {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .login-day.logged {
+            background: var(--accent);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .login-day.today {
+            border: 2px solid var(--accent);
+        }
+
+        /* Schedule List */
+        .schedule-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .schedule-display {
+            padding: 20px;
+        }
+
+        .schedule-display .schedule-events {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-display .event-item {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-primary);
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .schedule-display .event-more {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 8px;
+        }
+
+        .schedule-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .schedule-item-time {
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .schedule-item-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .schedule-item-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .no-schedule {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Event Form */
+        .event-form {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .event-form input, .event-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .event-form input::placeholder, .event-form textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .event-form button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .event-form button:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Selected date display */
+        .selected-date-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav id="top-menu">
+        <ul>
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="calendar.html" class="active">カレンダー</a></li>
+            <li><a href="alarm.html">アラーム</a></li>
+            <li><a href="weather.html">天気予報</a></li>
+        </ul>
+    </nav>
+
+    <div id="calendar-page-main">
+        <!-- 左サイドバー: 削除済み -->
+        <div id="cal-left-sidebar" style="display: none;">
+        </div>
+
+        <!-- 中央エリア: カレンダー -->
+        <div id="cal-center-area">
+            <div id="calendar-header">
+                <button id="cal-prev" class="cal-nav-btn" aria-label="前の月">◀</button>
+                <div id="current-month">読み込み中...</div>
+                <button id="cal-next" class="cal-nav-btn" aria-label="次の月">▶</button>
+                <button id="cal-refresh" class="cal-nav-btn" title="再読み込み">⟳</button>
+            </div>
+            <div id="calendar"></div>
+        </div>
+
+        <!-- 右サイドバー: 詳細予定表 -->
+        <div id="cal-right-sidebar">
+            <div class="glass-card">
+                <div class="selected-date-header" id="selected-date-title">今日の予定</div>
+                <div class="schedule-list" id="schedule-list">
+                    <div class="no-schedule">日付を選択してください</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Calendar API キーとカレンダーID
+        window.GCAL_API_KEY = 'AIzaSyDycfeSPSwNuh1J04iCvGLwHOR1OWpo8as';
+        window.GCAL_CALENDAR_ID = '2025its.pilab@gmail.com';
+    </script>
+    <script src="JS/script.js"></script>
+    <script src="JS/calendar-page.js"></script>
+</body>
+</html>

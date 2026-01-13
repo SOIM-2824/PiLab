@@ -1,0 +1,91 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #f0f8ff;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #2196F3;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 50px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    user-select: none;
+}
+
+.checked {
+    background: #4CAF50;
+    color: white;
+}
+
+.missed {
+    background: #FFCDD2;
+    color: #B71C1C;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background: #2196F3;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background: #1976D2;
+    }
+
+#status {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* ====== Top Menu ====== */
+#top-menu {
+    width: 100%;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+}
+
+    #top-menu ul {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #top-menu a {
+        text-decoration: none;
+        color: #333;
+        font-size: 18px;
+        font-weight: bold;
+    }

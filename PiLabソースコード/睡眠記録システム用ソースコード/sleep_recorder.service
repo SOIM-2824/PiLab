@@ -1,0 +1,22 @@
+[Unit]
+Description=Sleep Recorder Service
+After=network.target graphical.target
+
+[Service]
+Type=simple
+User=admin
+Group=admin
+WorkingDirectory=/home/admin/Desktop/pi/sleep
+ExecStart=/home/admin/Desktop/pi/.venv/bin/python /home/admin/Desktop/pi/sleep/sleep_recorder.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/home/admin/Desktop/pi/sleep/output.log
+StandardError=append:/home/admin/Desktop/pi/sleep/error.log
+
+# GUI表示のための環境変数
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/admin/.Xauthority
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>天気予報 - 鹿児島市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <style>
+        /* Weather Page Specific Styles */
+        #weather-page-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            width: calc(100% - 40px);
+            margin: 80px 20px 20px 20px;
+            padding-top: 10px;
+        }
+
+        #weather-left {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #weather-center {
+            flex: 1;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        #weather-right {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-right: 30px;
+        }
+
+        /* Current Weather */
+        .current-weather {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .current-weather .location {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .current-weather .temp-main {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .current-weather .weather-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .current-weather .description {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        .current-weather .feels-like {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Weather Details Grid */
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .detail-item .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .detail-item .value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Weekly Forecast */
+        .weekly-forecast {
+            padding: 20px;
+        }
+
+        .weekly-forecast h3 {
+            margin: 0 0 16px;
+            color: var(--text-primary);
+        }
+
+        .forecast-day {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .forecast-day .day-name {
+            width: 100px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .forecast-day .weather-icon-small {
+            width: 40px;
+            height: 40px;
+        }
+
+        .forecast-day .description {
+            flex: 1;
+            text-align: left;
+            margin-left: 10px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .forecast-day .temps {
+            text-align: right;
+            min-width: 80px;
+        }
+
+        .forecast-day .temp-high {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .forecast-day .temp-low {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .forecast-day .pop {
+            width: 60px;
+            text-align: right;
+            color: #4dabf7;
+            font-size: 13px;
+        }
+
+        /* Hourly Forecast */
+        .hourly-forecast {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .hourly-forecast h3 {
+            margin: 0 0 16px;
+            color: var(--text-primary);
+        }
+
+        .hourly-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .hourly-item {
+            flex: 0 0 70px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 8px;
+            border-radius: 10px;
+        }
+
+        .hourly-item .hour {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .hourly-item .weather-icon-tiny {
+            width: 32px;
+            height: 32px;
+            margin: 5px 0;
+        }
+
+        .hourly-item .temp {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .hourly-item .pop {
+            font-size: 11px;
+            color: #4dabf7;
+            margin-top: 4px;
+        }
+
+        /* Weather Alerts */
+        .weather-alerts {
+            padding: 15px;
+        }
+
+        .weather-alerts h3 {
+            margin: 0 0 12px;
+            color: var(--text-primary);
+        }
+
+        .no-alerts {
+            color: #4caf50;
+            font-size: 14px;
+        }
+
+        /* Sun Times */
+        .sun-times {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+        }
+
+        .sun-item {
+            text-align: center;
+        }
+
+        .sun-item .icon {
+            font-size: 28px;
+        }
+
+        .sun-item .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 5px;
+        }
+
+        .sun-item .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <nav id="top-menu">
+        <ul>
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="calendar.html">カレンダー</a></li>
+            <li><a href="alarm.html">アラーム</a></li>
+            <li><a href="weather.html" class="active">天気予報</a></li>
+        </ul>
+    </nav>
+
+    <div id="weather-page-main">
+        <!-- 左カラム: 現在の天気 -->
+        <div id="weather-left">
+            <div class="glass-card current-weather">
+                <div class="location">🌍 鹿児島市</div>
+                <img class="weather-icon" id="current-icon" src="" alt="天気アイコン">
+                <div class="temp-main" id="current-temp">--°</div>
+                <div class="description" id="current-desc">読み込み中...</div>
+                <div class="feels-like" id="current-feels">体感温度: --°</div>
+            </div>
+
+            <div class="glass-card">
+                <h3 style="margin: 0 0 12px; padding: 15px 15px 0;">☀️ 日の出・日の入り</h3>
+                <div class="sun-times">
+                    <div class="sun-item">
+                        <div class="icon">🌅</div>
+                        <div class="time" id="sunrise-time">--:--</div>
+                        <div class="label">日の出</div>
+                    </div>
+                    <div class="sun-item">
+                        <div class="icon">🌇</div>
+                        <div class="time" id="sunset-time">--:--</div>
+                        <div class="label">日の入り</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中央カラム: 週間予報 + 時間別 -->
+        <div id="weather-center">
+            <div class="glass-card hourly-forecast">
+                <h3>⏰ 時間別予報</h3>
+                <div class="hourly-scroll" id="hourly-container">
+                    <div class="loading">読み込み中...</div>
+                </div>
+            </div>
+
+            <div class="glass-card weekly-forecast">
+                <h3>📅 週間天気予報</h3>
+                <div id="weekly-container">
+                    <div class="loading">読み込み中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右カラム: 詳細情報 -->
+        <div id="weather-right">
+            <div class="glass-card weather-details">
+                <div class="detail-item">
+                    <div class="label">💧 湿度</div>
+                    <div class="value" id="detail-humidity">--%</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">💨 風速</div>
+                    <div class="value" id="detail-wind">-- m/s</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">🌡️ 気圧</div>
+                    <div class="value" id="detail-pressure">-- hPa</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">👁️ 視程</div>
+                    <div class="value" id="detail-visibility">-- km</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">☀️ UV指数</div>
+                    <div class="value" id="detail-uv">--</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">☁️ 雲量</div>
+                    <div class="value" id="detail-cloud">--%</div>
+                </div>
+            </div>
+
+            <div class="glass-card weather-alerts">
+                <h3>⚠️ 警報・注意報</h3>
+                <div id="alerts-container">
+                    <div class="no-alerts">現在、警報・注意報はありません</div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 15px;">
+                <h3 style="margin: 0 0 12px;">📊 本日のサマリー</h3>
+                <div id="daily-summary" style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+                    読み込み中...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 鹿児島市の座標
+        const KAGOSHIMA_LAT = 31.5602;
+        const KAGOSHIMA_LON = 130.5581;
+        
+        // WeatherAPI Key
+        window.WEATHERAPI_API_KEY = window.WEATHERAPI_API_KEY || '6fe49bea5a06475097b23220253009';
+
+        // 天気ページ初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAllWeatherData();
+            // 30分ごとに更新
+            setInterval(fetchAllWeatherData, 30 * 60 * 1000);
+        });
+
+        async function fetchAllWeatherData() {
+            try {
+                const apiKey = window.WEATHERAPI_API_KEY;
+                const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${KAGOSHIMA_LAT},${KAGOSHIMA_LON}&days=3&aqi=yes&alerts=yes&lang=ja`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Weather API error');
+                
+                const data = await response.json();
+                
+                updateCurrentWeather(data.current);
+                updateHourlyForecast(data.forecast.forecastday);
+                updateWeeklyForecast(data.forecast.forecastday);
+                updateWeatherDetails(data.current);
+                updateAlerts(data.alerts);
+                updateSunTimes(data.forecast.forecastday[0].astro);
+                updateDailySummary(data);
+                
+            } catch (error) {
+                console.error('天気データ取得エラー:', error);
+            }
+        }
+
+        function updateCurrentWeather(current) {
+            document.getElementById('current-temp').textContent = `${Math.round(current.temp_c)}°`;
+            document.getElementById('current-desc').textContent = current.condition.text;
+            document.getElementById('current-feels').textContent = `体感温度: ${Math.round(current.feelslike_c)}°`;
+            document.getElementById('current-icon').src = 'https:' + current.condition.icon.replace('64x64', '128x128');
+        }
+
+        function updateHourlyForecast(forecastDays) {
+            const container = document.getElementById('hourly-container');
+            const now = new Date();
+            let html = '';
+            
+            const allHours = [];
+            forecastDays.slice(0, 2).forEach(day => {
+                day.hour.forEach(h => {
+                    const hourDate = new Date(h.time);
+                    if (hourDate >= now) {
+                        allHours.push(h);
+                    }
+                });
+            });
+            
+            allHours.slice(0, 24).forEach(h => {
+                const hourDate = new Date(h.time);
+                const hourStr = hourDate.getHours() + '時';
+                html += `
+                    <div class="hourly-item">
+                        <div class="hour">${hourStr}</div>
+                        <img class="weather-icon-tiny" src="https:${h.condition.icon}" alt="">
+                        <div class="temp">${Math.round(h.temp_c)}°</div>
+                        <div class="pop">${h.chance_of_rain}%</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateWeeklyForecast(forecastDays) {
+            const container = document.getElementById('weekly-container');
+            const days = ['日', '月', '火', '水', '木', '金', '土'];
+            let html = '';
+            
+            forecastDays.forEach((day, index) => {
+                const date = new Date(day.date);
+                const dayName = index === 0 ? '今日' : index === 1 ? '明日' : `${date.getMonth()+1}/${date.getDate()}(${days[date.getDay()]})`;
+                
+                html += `
+                    <div class="forecast-day">
+                        <div class="day-name">${dayName}</div>
+                        <img class="weather-icon-small" src="https:${day.day.condition.icon}" alt="">
+                        <div class="description">${day.day.condition.text}</div>
+                        <div class="temps">
+                            <span class="temp-high">${Math.round(day.day.maxtemp_c)}°</span>
+                            /
+                            <span class="temp-low">${Math.round(day.day.mintemp_c)}°</span>
+                        </div>
+                        <div class="pop">☔${day.day.daily_chance_of_rain}%</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateWeatherDetails(current) {
+            document.getElementById('detail-humidity').textContent = `${current.humidity}%`;
+            document.getElementById('detail-wind').textContent = `${Math.round(current.wind_kph / 3.6)} m/s`;
+            document.getElementById('detail-pressure').textContent = `${current.pressure_mb} hPa`;
+            document.getElementById('detail-visibility').textContent = `${current.vis_km} km`;
+            document.getElementById('detail-uv').textContent = current.uv;
+            document.getElementById('detail-cloud').textContent = `${current.cloud}%`;
+        }
+
+        function updateAlerts(alerts) {
+            const container = document.getElementById('alerts-container');
+            if (!alerts || !alerts.alert || alerts.alert.length === 0) {
+                container.innerHTML = '<div class="no-alerts">✅ 現在、警報・注意報はありません</div>';
+                return;
+            }
+            
+            let html = '';
+            alerts.alert.forEach(alert => {
+                html += `
+                    <div class="alert-item">
+                        <strong>${alert.headline}</strong>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateSunTimes(astro) {
+            document.getElementById('sunrise-time').textContent = astro.sunrise;
+            document.getElementById('sunset-time').textContent = astro.sunset;
+        }
+
+        function updateDailySummary(data) {
+            const current = data.current;
+            const today = data.forecast.forecastday[0].day;
+            
+            let summary = `今日の鹿児島市は${today.condition.text}です。`;
+            summary += `最高気温${Math.round(today.maxtemp_c)}°、最低気温${Math.round(today.mintemp_c)}°。`;
+            summary += `降水確率は${today.daily_chance_of_rain}%です。`;
+            
+            if (current.uv >= 6) {
+                summary += `<br><span style="color:#ff9800">⚠️ UV指数が高めです。</span>`;
+            }
+            
+            if (today.daily_chance_of_rain >= 50) {
+                summary += `<br><span style="color:#4dabf7">☂️ 傘をお持ちください。</span>`;
+            }
+            
+            document.getElementById('daily-summary').innerHTML = summary;
+        }
+    </script>
+</body>
+</html>

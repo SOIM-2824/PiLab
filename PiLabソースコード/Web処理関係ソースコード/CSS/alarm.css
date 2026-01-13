@@ -1,0 +1,226 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+#dateTimeDisplay {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+#currentTimeDisplay {
+    font-size: 90px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.sliders-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type=range] {
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+    height: 140px;
+}
+
+.value-display {
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+input[type=text], input[type=number], select, input[type=date] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 8px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+iframe {
+    margin-top: 15px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+#alarmHistory li {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#alarmHistory button {
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.fold-section {
+    margin-top: 10px;
+    display: none;
+}
+
+.toggle-btn {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 400px) {
+    input[type=range] {
+        height: 100px;
+    }
+}
+/* ======== �_�[�N���[�h���̒ǉ��ݒ� ======== */
+body {
+    background-color: #121212; /* �w�i�������ۂ� */
+    color: #e0e0e0; /* ����߂̕����F */
+}
+
+/* �����\�������ڗ������� */
+#currentTimeDisplay {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(41,121,255,0.4); /* ����������� */
+}
+
+/* �X���C�_�[�g���_�[�N���� */
+input[type=range]::-webkit-slider-runnable-track {
+    background: #333;
+    border-radius: 4px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #2979ff; /* ���A�N�Z���g */
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(41,121,255,0.6);
+}
+
+/* �e�L�X�g�␔�l���͗� */
+input[type=text],
+input[type=number],
+input[type=date],
+select {
+    background-color: #1e1e1e;
+    color: #eee;
+    border: 1px solid #333;
+    border-radius: 6px;
+}
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #2979ff;
+    }
+
+/* �{�^����������C���� */
+button {
+    background-color: #2979ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    button:hover {
+        background-color: #5393ff;
+        transform: scale(1.05);
+    }
+
+/* �������X�g�����w�i�{�O���[�� */
+#alarmHistory li {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+#alarmHistory button {
+    background: #444;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+    #alarmHistory button:hover {
+        background: #2979ff;
+    }
+
+/* �܂肽���݃G���A */
+.fold-section {
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+/* �g�O���{�^���i���o�����j */
+.toggle-btn {
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+    .toggle-btn:hover {
+        background: #2979ff;
+    }
+
+/* ���f�B�A�N�G���i���o�C�����ÐF�j */
+@media (max-width: 400px) {
+    body {
+        background-color: #0f0f0f;
+    }
+}
+
+/* ====== Top Menu ====== */
+#top-menu {
+    width: 100%;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+}
+
+    #top-menu ul {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #top-menu a {
+        text-decoration: none;
+        color: #333;
+        font-size: 18px;
+        font-weight: bold;
+    }
